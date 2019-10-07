@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas id="canvas" style="border:1px solid #eee;display:clock;margin:50px auto"></canvas>
+</body>
+<script>
+    //首先定义小球的相关信息
+    var ball = {
+        x: 512, //小球的初始x轴位置
+        y: 100, //小球的初始y轴位置
+        r: 20, //小球的半径
+        g: 6, //小球下落的重力加速度--后面小球回弹到顶部，根据物理学定义y轴上的速度为0，所以自己又往下落
+        vx: -4, //小球x轴上的速度
+        vy: 0, //小球y轴上的速度
+        color: '#005588'
+    }
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        canvas.width = 1024;
+        canvas.height = 768;
+        var context = canvas.getContext('2d');
+        var timer = setInterval(function () {
+            render(context);
+            update();
+        }, 100)
+
+        function update() {
+            ball.x += ball.vx; //每一时刻，小球x轴上的位置= 上一时刻的位置+x轴的速度
+            ball.y += ball.vy; //同上
+            ball.vy += ball.g; //每一时刻，小球y轴上的速度变化，根据加速度变化
+            if (ball.y > canvas.height - ball.r) {
+                ball.y = canvas.height - ball.r;
+                ball.vy = -ball.vy * 0.5;
+
+            }
+            if (ball.x < 0) {
+                clearInterval(timer);
+            }
+        }
+
+        function render(cxt) {
+            cxt.clearRect(0, 0, cxt.canvas.width, cxt.canvas.height);
+            cxt.fillStyle = ball.color;
+            cxt.beginPath();
+            //context.arc(300, 300, 200, 0, 1.5 * Math.PI); //以300，300为圆心，200为半径，开始于0度结束于1.5*派
+            cxt.arc(ball.x, ball.y, ball.r, 0, 2 * Math.PI);
+            cxt.closePath();
+            cxt.fill();
+        }
+    }
+</script>
+
+</html>
