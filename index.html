@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #canvas {
+            border: 1px solid #aaa;
+            display: block;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="1024" height="768">
+        当前浏览器不支持canvas，请更换浏览器后再试！
+    </canvas>
+</body>
+<!-- <script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+    }
+</script> -->
+<!-- <script>
+    /*
+    1. 设置canvas画布的大小，建议以属性值的形式width和height，因为这里不仅是设置了大小还默认设置了画布的分辨率等信息
+    2. width 和 height 没有单位
+    */
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        //还可以在js中设置画布的大小
+        // canvas.width=1024;
+        // canvans.height = 768;
+        var context = canvas.getContext('2d'); //得到绘图的上下文环境
+        if (context) {
+            //使用context绘制
+            context.moveTo(100, 100); //画笔以100，100 的位置作为起点
+            context.lineTo(700, 700); //以直线的形式，画到700 700
+            context.lineTo(100, 700); //绘制多条线
+            context.lineTo(100, 100);
+            context.lineWidth = 5; //设置线条的宽度
+            context.strokeStyle = "#005588" //设置线条的样式 主要是颜色
+            context.stroke(); //开始线条的绘制，只是用来画线条 
+        } else {
+            alert('当前浏览器不支持canvas， 请更换浏览器后再试！');
+        }
+    }
+</script> -->
+<!-- <script>
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        context.moveTo(100, 100); //画笔以100，100 的位置作为起点
+        context.lineTo(700, 700); //以直线的形式，画到700 700
+        context.lineTo(100, 700); //绘制多条线
+        context.lineTo(100, 100);
+        context.fillStyle = "rgb(2,100,30)";
+        context.fill(); //填充色
+        context.lineWidth = 5; //设置线条的宽度
+        context.strokeStyle = "red" //设置线条的样式 
+        context.stroke();
+    }
+</script> -->
+<!-- <script>
+    /*画多个路径，要在每一次的开始结尾，加上
+    context.beginPath();
+    context.closePath();
+    */
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        context.beginPath();
+        context.moveTo(100, 100); //画笔以100，100 的位置作为起点
+        context.lineTo(700, 700); //以直线的形式，画到700 700
+        context.lineTo(100, 700); //绘制多条线
+        context.lineTo(100, 100);
+        context.closePath();
+        context.lineWidth = 5; //设置线条的宽度
+        context.strokeStyle = "red"; //设置线条的样式 
+        context.stroke();
+        //画第二个图
+        context.beginPath();
+        context.moveTo(200, 100); //画笔以100，100 的位置作为起点
+        context.lineTo(700, 600);
+        context.closePath();
+        context.strokeStyle = "black";
+        context.stroke();
+    }
+</script> -->
+<!-- <script>
+    /*绘制圆
+    context.arc(centerx,centery,radius,startingAngle,endingAngle,anticlockwose=false)
+    anticlockwose=false表示以顺时针方式
+    */
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        context.lineWidth = 5; //设置线条的宽度
+        context.strokeStyle = "red"; //设置线条的样式 
+        context.arc(300, 300, 200, 0, 1.5 * Math.PI); //以300，300为圆心，200为半径，开始于0度结束于1。5*派
+        //context.arc(300, 300, 200, 0, 1.5 * Math.PI,true); //
+        context.stroke();
+    }
+</script> -->
+<script>
+    /*绘制多个圆，使用for循环和closePath，closePath 会把没有闭合的曲线，默认闭合，效果如下所示
+     */
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        context.lineWidth = 5; //设置线条的宽度
+        context.strokeStyle = "red"; //设置线条的样式 
+        for (var i = 0; i < 10; i++) {
+            context.beginPath();
+            context.arc(10 + 100 * i, 60, 50, 0, 2 * Math.PI * (i + 1) / 10);
+            context.closePath();
+            context.stroke();
+        }
+        //去掉 context.closePath();，则不会有默认闭合的曲线了
+        for (var i = 0; i < 10; i++) {
+            context.beginPath();
+            context.arc(10 + 100 * i, 200, 50, 0, 2 * Math.PI * (i + 1) / 10);
+            context.stroke();
+        }
+
+        //填充色
+        context.fillStyle = "rgb(2,100,30)";
+        for (var i = 0; i < 10; i++) {
+            context.beginPath();
+            context.arc(10 + 100 * i, 300, 50, 0, 2 * Math.PI * (i + 1) / 10);
+            context.closePath();
+
+            context.fill(); //填充色
+        }
+    }
+</script>
+
+</html>
