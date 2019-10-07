@@ -36,21 +36,24 @@ window.onload = function() {
 };
 
 function getCurrentShowTImeSeconds() {
-  var curTime = new Date(); //当前时间
-  var ret = endTime.getTime() - curTime.getTime(); //当前时间 - 截止时间
-  ret = Math.round(ret / 1000); //将毫秒转成秒，转成整数
-  return ret > 0 ? ret : 0;
+  var date = new Date(); //当前时间
+  var timeObj = {
+    hour: date.getHours(),
+    minute: date.getMinutes(),
+    second: date.getSeconds()
+  };
+  return timeObj;
 }
 
 function update() {
   var nextShowTimeSeconds = getCurrentShowTImeSeconds(); //获取更新后的倒计时的时间
-  var nextHours = parseInt(nextShowTimeSeconds / 3600); //curShowTimeSeconds返回的是当前秒
-  var nextMinutes = parseInt((nextShowTimeSeconds - nextHours * 3600) / 60);
-  var nextSeconds = nextShowTimeSeconds % 60;
+  var nextHours = parseInt(nextShowTimeSeconds.hour); //curShowTimeSeconds返回的是当前秒
+  var nextMinutes = parseInt(nextShowTimeSeconds.minute);
+  var nextSeconds = nextShowTimeSeconds.second;
 
-  var curHours = parseInt(curShowTimeSeconds / 3600); //curShowTimeSeconds返回的是当前秒
-  var curMinutes = parseInt((curShowTimeSeconds - curHours * 3600) / 60);
-  var curSeconds = curShowTimeSeconds % 60;
+  var curHours = parseInt(curShowTimeSeconds.hour); //curShowTimeSeconds返回的是当前秒
+  var curMinutes = parseInt(curShowTimeSeconds.minute);
+  var curSeconds = curShowTimeSeconds.second;
 
   if (nextSeconds != curSeconds) {
     //如果当前秒数和下一次的秒数不等，说明数字还在变化
@@ -156,9 +159,10 @@ function addBalls(x, y, num) {
 
 function render(cxt) {
   cxt.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT); //画布内容更新的时候，需要更新画布
-  var hours = parseInt(curShowTimeSeconds / 3600); //curShowTimeSeconds返回的是当前秒
-  var minutes = parseInt((curShowTimeSeconds - hours * 3600) / 60);
-  var seconds = curShowTimeSeconds % 60;
+  var hours = parseInt(curShowTimeSeconds.hour); //curShowTimeSeconds返回的是当前秒
+  var minutes = parseInt(curShowTimeSeconds.minute);
+  var seconds = curShowTimeSeconds.second;
+  //console.log(hours, minutes, minutes);
   renderDigit(MARGIN_LEFT, MARGIN_TOP, parseInt(hours / 10), cxt); //绘制时间 从 0，0位置开始，一个数字一个数字的绘制，这里绘制的是数字的十位
   //十位数中的个位数，因为每个数字最长有7个小圆点组成
   //也就是这里每个数字的宽度是 7*2*(RADIUS+1),为了每个数字之间留有一点余地，这里设置成15*(RADIUS+1)
